@@ -397,7 +397,7 @@ function weatherNeedLayer(){if(!weatherState.ready)return null;return weatherSta
 function weatherLayerScore(layer){if(!weatherState.ready)return 0;const cold=weatherState.temp<45,cool=weatherState.temp<62,wet=weatherState.rain;
  if(!layer)return (cold?-28:cool?-10:4)+(wet?-18:0);
  const n=layer[1].toLowerCase(),warm=/sherpa|hoodie|coat|cardigan|corduroy/.test(n),rainSafe=/windbreaker|rain|shell/.test(n),light=/windbreaker|bomber|denim/.test(n);
- let score=cold?(warm?13:light?2:-2):cool?(warm?5:light?9:3):weatherState.temp>=77?-22:-5;
+ let score=cold?(/sherpa|puffer|parka|insulated|heavy coat/.test(n)?23:/hoodie|corduroy|coat/.test(n)?15:/cardigan/.test(n)?6:light?-1:-8):cool?(warm?5:light?9:3):weatherState.temp>=77?-22:-5;
  if(wet)score+=rainSafe?19:/sherpa|suede/.test(n)?-17:0;
  return score;
 }
