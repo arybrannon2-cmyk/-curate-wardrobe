@@ -156,6 +156,24 @@ nav{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
 .full-look-caption{margin-top:10px;color:var(--soft);font-size:12px;line-height:1.45;text-align:center}
 @media(max-width:400px){.full-look-canvas{grid-template-rows:150px 155px 92px;padding:10px 14px}}
 @media(prefers-reduced-motion:no-preference){.full-look-layer img{animation:curate-preview-enter .22s ease-out both}@keyframes curate-preview-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
+
+/* Complete Look refinement: tailored spacing and clothing hierarchy */
+.full-look-canvas{max-width:390px;grid-template-rows:minmax(0,170px) minmax(0,245px) minmax(0,112px);gap:0;padding:18px 19px 16px}
+.full-look-layer{overflow:hidden}
+.full-look-layer.tops{align-items:end;padding:0 12px 0}
+.full-look-layer.bottoms{align-items:center;padding:0 29px}
+.full-look-layer.shoes{align-items:start;padding:0 24px 0}
+.full-look-layer img{width:100%;height:100%;object-fit:contain;object-position:center}
+.full-look-layer.tops img{height:98%;object-position:center bottom}
+.full-look-layer.bottoms img{height:99%;object-position:center}
+.full-look-layer.shoes img{height:96%;width:88%;object-position:center top}
+.full-look-layer:after{bottom:2px;left:2px}
+@media(max-width:400px){
+ .full-look-canvas{grid-template-rows:145px 212px 98px;padding:13px 10px 12px}
+ .full-look-layer.tops{padding:0 8px}
+ .full-look-layer.bottoms{padding:0 19px}
+ .full-look-layer.shoes{padding:0 16px}
+}
 </style></head><body><header><div><h1>CURATE</h1><small>YOUR WARDROBE, REFINED</small></div><button class="icon" id="themeButton" aria-label="Change theme">◐</button></header><main id="main"></main><nav id="nav"></nav><script>
 (function(){
 const base=[];
