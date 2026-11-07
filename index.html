@@ -196,6 +196,32 @@ button.full-look-layer:active img{opacity:.78}
 .look-favorite.is-favorite{background:var(--accent);color:var(--bg);border-color:var(--accent)}.looks-filters{margin:12px 0 16px}.lookbook-card .buttons{gap:8px}
 .looks-sort{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0;color:var(--soft);font-size:12px}.looks-sort select{min-width:155px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card);color:var(--ink);font-size:13px}
 .wardrobe-sort{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:12px 0;color:var(--soft);font-size:12px}.wardrobe-sort label{display:flex;align-items:center;gap:7px}.wardrobe-sort select{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px}@media(max-width:380px){.wardrobe-sort{flex-wrap:wrap}}
+
+.today-dashboard .today-eyebrow{display:block;color:var(--soft);font-size:10px;letter-spacing:.14em;font-weight:600;text-transform:uppercase}
+.today-dashboard>h2{font-size:41px;margin:7px 0 2px}
+.today-stats{display:flex;gap:9px;flex-wrap:wrap;margin:17px 0 20px}
+.today-stats span{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:10px 12px;font-size:11px;color:var(--soft)}
+.today-stats b{font-size:17px;color:var(--ink);padding-right:3px}
+.today-hero,.today-favorites{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:17px;margin:16px 0}
+.today-hero h3,.today-favorites h3{font-family:Georgia,serif;font-size:25px;font-weight:400;margin:6px 0 0}
+.today-hero .row,.today-favorites .row{align-items:center;gap:9px}
+.today-studio-link{font-size:12px;padding:9px 11px}
+.today-canvas{margin:15px auto 0}
+.today-hint{text-align:center;color:var(--soft);font-size:11px;margin:10px 0 14px}
+.today-piece-list{border-top:1px solid var(--line)}
+.today-piece-list>div{display:grid;grid-template-columns:66px minmax(0,1fr);gap:10px;border-bottom:1px solid var(--line);padding:10px 0;align-items:baseline}
+.today-piece-list span{font-size:10px;color:var(--soft);text-transform:uppercase;letter-spacing:.08em}
+.today-piece-list strong{font-size:12px;font-weight:500;overflow-wrap:anywhere}
+.today-favorite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.today-favorite{background:var(--bg);border:1px solid var(--line);padding:8px;border-radius:16px;color:var(--ink);text-align:left;min-width:0}
+.today-favorite-pics{display:grid;grid-template-rows:84px 85px 53px;border-radius:11px;background:var(--garment-surface);margin-bottom:8px;overflow:hidden}
+.today-favorite-pics span{min-height:0;display:flex;justify-content:center}
+.today-favorite-pics img{max-width:100%;height:100%;object-fit:contain}
+.today-favorite strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.today-favorite small{display:block;color:var(--soft);font-size:10px;margin-top:5px}
+.today-empty{background:var(--bg);border-radius:15px;padding:15px;margin-top:15px}
+.today-empty p{font-size:12px;color:var(--soft)}
+@media(min-width:600px){.today-favorite-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style></head><body><header><div><h1>CURATE</h1><small>YOUR WARDROBE, REFINED</small></div><button class="icon" id="themeButton" aria-label="Change theme">◐</button></header><main id="main"></main><nav id="nav"></nav><script>
 (function(){
 const base=[];
@@ -340,7 +366,14 @@ function cycle(cat,n){const arr=items.filter(x=>x[2]===cat);let ix=arr.findIndex
 function shuffle(){['tops','bottoms','shoes'].forEach(c=>{let arr=items.filter(x=>x[2]===c);if(arr.length)selected[c]=arr[Math.floor(Math.random()*arr.length)][0]});save('selected',selected);render()}
 function saveLook(){if(!looks.some(l=>l.tops===selected.tops&&l.bottoms===selected.bottoms&&l.shoes===selected.shoes)){looks.unshift({...selected,id:Date.now()});save('looks',looks);alert('Saved to My Looks ♡')}else alert('Already saved ♡');render()}
 function markWorn(){worn.unshift({date:new Date().toLocaleDateString(),...selected});save('worn',worn);alert('Outfit recorded for today');render()}
-function today(){return '<h2>Good morning.</h2><p class="sub">A considered wardrobe, without the effort. Your real pieces, ready to style.</p><section class="card"><div class="row"><h3>Today’s Look</h3><span class="sub">01 / CURATE</span></div>'+outfit(selected)+'<p class="sub">'+['tops','bottoms','shoes'].map(c=>esc(one(selected[c])[1])).join(' · ')+'</p><div class="buttons"><button class="btn primary" data-act="wear">Wore This Today</button><button class="btn" data-act="shuffle">Shuffle ↻</button><button class="btn" data-tab="Studio">Customize</button></div></section><section class="card"><h3>Make getting dressed easy.</h3><p class="sub">Build an outfit in Studio, then save it to My Looks. Your selections stay on this browser.</p></section>'}
+function today(){
+ const favorites=looks.map((l,i)=>({l,i})).filter(({l})=>l.favorite).slice(0,4);
+ const date=new Intl.DateTimeFormat('en-US',{weekday:'long',month:'long',day:'numeric'}).format(new Date());
+ const ready=['tops','bottoms','shoes'].every(c=>items.some(x=>x[0]===selected[c]&&x[2]===c));
+ return '<div class="today-dashboard"><span class="today-eyebrow">YOUR DAILY EDIT · '+esc(date)+'</span><h2>Today.</h2><p class="sub">Your wardrobe, ready when you are.</p><div class="today-stats"><span><b>'+items.length+'</b> pieces</span><span><b>'+looks.length+'</b> saved looks</span><span><b>'+looks.filter(l=>l.favorite).length+'</b> favorites</span></div>'+
+ (ready?'<section class="today-hero"><div class="row"><div><span class="today-eyebrow">01 / OUTFIT OF THE DAY</span><h3>Your Look</h3></div><button class="btn today-studio-link" data-tab="Studio">Open Studio ↗</button></div><div class="full-look-canvas today-canvas">'+['tops','bottoms','shoes'].map(c=>'<button type="button" class="full-look-layer '+c+'" data-cycle="'+c+'" data-n="1" data-kind="'+c+'" aria-label="Change '+c+'">'+img(one(selected[c]))+'</button>').join('')+'</div><p class="today-hint">Tap a piece to change it, or shuffle the whole look.</p><div class="today-piece-list">'+['tops','bottoms','shoes'].map(c=>'<div><span>'+c+'</span><strong>'+esc(one(selected[c])[1])+'</strong></div>').join('')+'</div><div class="buttons"><button class="btn primary" data-act="wear">✓ Wore Today</button><button class="btn" data-act="shuffle">Shuffle ↻</button><button class="btn" data-tab="Studio">Customize Outfit</button></div></section>':'<section class="card"><h3>Make your first outfit</h3><p class="sub">Add a top, bottoms and shoes to your Wardrobe.</p><button class="btn primary" data-tab="Wardrobe">Open Wardrobe</button></section>')+
+ '<section class="today-favorites"><div class="row"><div><span class="today-eyebrow">02 / YOUR COLLECTION</span><h3>Favorite Looks</h3></div><button class="btn" data-tab="My Looks">See All ↗</button></div>'+(favorites.length?'<div class="today-favorite-grid">'+favorites.map(({l,i})=>'<button class="today-favorite" data-open="'+i+'"><div class="today-favorite-pics">'+['tops','bottoms','shoes'].map(c=>'<span>'+img(one(l[c]))+'</span>').join('')+'</div><strong>'+esc(l.name||'Look '+String(looks.length-i).padStart(2,'0'))+'</strong><small>Open in Studio ↗</small></button>').join('')+'</div>':'<div class="today-empty"><p>No favorites yet. Save an outfit in Studio and tap ♡ Favorite in My Looks.</p><button class="btn" data-tab="Studio">Create a Look ↗</button></div>')+'</section></div>'
+}
 
 let backupBusy=false,backupMessage='';
 function bytesToBase64(bytes){let out='';for(let i=0;i<bytes.length;i+=8192)out+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(out)}
