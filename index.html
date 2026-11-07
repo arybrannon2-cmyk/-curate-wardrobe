@@ -50,6 +50,36 @@ nav{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
 .studio-compact .buttons{margin-top:10px}
 .studio-compact .flat .art{height:145px}
 @media(max-width:380px){.studio-compact .slot .piece{grid-template-columns:78px minmax(0,1fr);column-gap:7px}.studio-compact .slot .art{width:78px;height:80px}.studio-compact .slot strong{font-size:12px}}
+
+/* CURATE 0.4 — Studio premium visual polish, presentation only */
+.studio-compact{--studio-line:color-mix(in srgb,var(--line) 82%,transparent);animation:studio-enter .28s ease-out both}
+.studio-compact h2{font-family:Georgia,serif;font-size:clamp(30px,7vw,38px);font-weight:400;line-height:1.08;letter-spacing:-.042em;margin:14px 2px 14px}
+.studio-compact .studio-intro{padding:16px 18px;border-radius:22px;border-color:var(--studio-line);box-shadow:0 8px 28px rgba(18,25,21,.035);margin:0 0 12px}
+.studio-compact .studio-eyebrow{font-size:10px;letter-spacing:.19em;line-height:1.45}
+.studio-compact .studio-intro p{font-family:Georgia,serif;font-weight:400;font-size:21px;letter-spacing:-.025em;line-height:1.2;margin:7px 0 7px}
+.studio-compact .studio-intro .sub{line-height:1.45;display:block;font-size:12px}
+.studio-compact .studio-toggle{padding:5px;gap:4px;border:1px solid var(--studio-line);border-radius:17px;margin:0 0 12px;box-shadow:0 3px 15px rgba(0,0,0,.018)}
+.studio-compact .studio-toggle .pill{font-size:13px;font-weight:600;min-height:38px;letter-spacing:.005em;border-radius:12px;transition:background-color .22s ease,color .22s ease,box-shadow .22s ease}
+.studio-compact .studio-toggle .pill.active{box-shadow:0 4px 10px rgba(10,20,15,.08)}
+.studio-compact .card{padding:11px;border-radius:26px;border-color:var(--studio-line);box-shadow:0 15px 42px rgba(18,25,21,.045)}
+.studio-compact .slot{grid-template-columns:35px minmax(0,1fr) 35px;gap:8px;margin:7px 0}
+.studio-compact .slot .piece{min-height:108px;grid-template-columns:102px minmax(0,1fr);padding:9px 12px;column-gap:13px;grid-template-rows:1fr 1fr;border-radius:19px;border:1px solid var(--studio-line);box-shadow:0 5px 13px rgba(12,23,17,.025);transition:border-color .2s ease,box-shadow .2s ease,transform .22s ease;background:var(--card)}
+.studio-compact .slot .piece:active{transform:scale(.987)}
+.studio-compact .slot .art{width:102px;height:88px;border-radius:13px;background:var(--bg)}
+.studio-compact .slot .art svg{filter:drop-shadow(0 6px 5px rgba(0,0,0,.10))}
+.studio-compact .slot strong{font-size:13px;font-weight:650;line-height:1.27;letter-spacing:-.015em;overflow-wrap:anywhere}
+.studio-compact .slot .sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-top:5px}
+.studio-compact .slot button{height:38px;width:35px;border-radius:13px;font-size:21px;border-color:var(--studio-line);transition:background-color .18s ease,transform .18s ease}
+.studio-compact .slot button:active{transform:scale(.91);background:var(--bg)}
+.studio-compact .buttons{gap:8px;margin-top:14px}
+.studio-compact .buttons .btn{min-height:43px;flex:1;white-space:nowrap;font-size:13px;font-weight:600;border-radius:14px;padding:11px 8px;transition:transform .18s ease,box-shadow .18s ease}
+.studio-compact .buttons .btn.primary{box-shadow:0 5px 14px rgba(25,40,29,.12)}
+.studio-compact .flat{gap:9px}
+.studio-compact .flat .art{height:155px;border-radius:17px}
+.studio-compact > .sub{font-size:11px;line-height:1.5;margin:13px 8px 0;text-align:center}
+@keyframes studio-enter{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:390px){.studio-compact .slot .piece{grid-template-columns:82px minmax(0,1fr);min-height:100px;column-gap:9px;padding:7px 8px}.studio-compact .slot .art{width:82px;height:82px}.studio-compact .slot strong{font-size:12px}.studio-compact .slot{gap:5px}.studio-compact .studio-intro p{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.studio-compact,.studio-compact *, .studio-compact *::before,.studio-compact *::after{animation:none!important;transition:none!important}}
 </style></head><body><header><div><h1>CURATE</h1><small>YOUR WARDROBE, REFINED</small></div><button class="icon" id="themeButton" aria-label="Change theme">◐</button></header><main id="main"></main><nav id="nav"></nav><script>
 (function(){
 const base=[['t1','Black Corduroy Pullover','tops','🧥'],['t2','White Essential Tee','tops','👕'],['t3','Gray Knit Sweater','tops','🧶'],['b1','Medium Wash Jeans','bottoms','👖'],['b2','Black Chinos','bottoms','👖'],['b3','Gray Joggers','bottoms','👖'],['s1','White Sneakers','shoes','👟'],['s2','Black Sneakers','shoes','👟'],['s3','Brown Boots','shoes','🥾']];
