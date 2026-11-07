@@ -113,6 +113,8 @@ nav{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
 .studio-compact .editorial-note-title{color:var(--ink);display:block;text-transform:uppercase;letter-spacing:.15em;font-weight:650;font-size:9px;margin:1px 0 4px}
 .studio-compact .editorial-note p{color:var(--soft);font-size:11px;line-height:1.5;margin:0}
 .studio-compact .editorial-foot{margin-top:0;padding-top:10px;font-size:9px;letter-spacing:.075em}
+/* Prevent browser-driven automatic SVG color changes in dark appearance. */
+.art svg{color-scheme:only light;forced-color-adjust:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 </style></head><body><header><div><h1>CURATE</h1><small>YOUR WARDROBE, REFINED</small></div><button class="icon" id="themeButton" aria-label="Change theme">◐</button></header><main id="main"></main><nav id="nav"></nav><script>
 (function(){
 const base=[['t1','Black Corduroy Pullover','tops','🧥'],['t2','White Essential Tee','tops','👕'],['t3','Gray Knit Sweater','tops','🧶'],['b1','Medium Wash Jeans','bottoms','👖'],['b2','Black Chinos','bottoms','👖'],['b3','Gray Joggers','bottoms','👖'],['s1','White Sneakers','shoes','👟'],['s2','Black Sneakers','shoes','👟'],['s3','Brown Boots','shoes','🥾']];
@@ -120,6 +122,12 @@ const load=(k,d)=>{try{let v=JSON.parse(localStorage.getItem('curate01_'+k));ret
 const save=(k,v)=>{try{localStorage.setItem('curate01_'+k,JSON.stringify(v))}catch(e){}};
 let items=load('items',base),selected=load('selected',{tops:'t1',bottoms:'b1',shoes:'s1'}),looks=load('looks',[]),worn=load('worn',[]),theme=load('theme','pearl'),tab='Today',flat=false,filter='all',query='';
 document.body.className=theme==='pearl'?'':theme;
+// Keep built-in demo IDs canonical even if earlier browser storage has stale demo images/names.
+const demoById=new Map(base.map(x=>[x[0],x]));
+items=items.map(item=>demoById.has(item[0])?demoById.get(item[0]).slice():item);
+for(const item of base){if(!items.some(x=>x[0]===item[0]))items.push(item.slice())}
+save('items',items);
+
 const $=id=>document.getElementById(id),one=id=>items.find(i=>i[0]===id)||items[0],esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 function sampleSvg(i){
@@ -141,7 +149,7 @@ case 's3':return wrap('<path d="M74 48 H126 L138 116 L173 132 Q186 141 183 164 H
 default:return wrap('<rect x="70" y="40" width="100" height="120" rx="16" fill="#9a9d9b"/>');
 }
 }
-function img(item){return item[4]?'<img src="'+esc(item[4])+'" alt="'+esc(item[1])+'">':sampleSvg(item)}
+function img(item){return demoById.has(item[0])?sampleSvg(demoById.get(item[0])):(item[4]?'<img src="'+esc(item[4])+'" alt="'+esc(item[1])+'">':sampleSvg(item))}
 function art(item){return '<div class="art">'+img(item)+'</div>'}
 function outfit(o){return '<div class="flat">'+['tops','bottoms','shoes'].map(c=>art(one(o[c]))).join('')+'</div>'}
 function studioFlat(o){return '<div class="editorial-board"><div class="editorial-head"><div><div class="editorial-kicker">CURATE <span class="editorial-star">✦</span> THE DAILY COLLECTION</div><div class="editorial-title">The complete look</div><div class="editorial-issue">PERSONAL WARDROBE / LOOK STUDY</div></div><span class="editorial-number">EDIT 001</span></div><div class="editorial-grid">'+['tops','bottoms','shoes'].map((c,i)=>'<div class="editorial-piece"><span class="editorial-index">0'+(i+1)+'</span>'+art(one(o[c]))+'<span class="editorial-caption">'+esc(one(o[c])[1])+'</span></div>').join('')+'</div><div class="editorial-note"><span class="editorial-note-mark">✦</span><div><span class="editorial-note-title">Collection note</span><p>Three considered pieces. One everyday look.</p></div></div><div class="editorial-foot"><span>Curated from your wardrobe</span><span>STUDIO · 01</span></div></div>'}
