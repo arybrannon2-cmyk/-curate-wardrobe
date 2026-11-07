@@ -102,6 +102,17 @@ nav{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
 @media(hover:hover){.studio-compact .editorial-piece:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(15,26,18,.06)}}
 @media(max-width:380px){.studio-compact .editorial-grid{grid-template-rows:140px 118px;gap:7px}.studio-compact .editorial-board{padding:14px 11px}.studio-compact .editorial-title{font-size:20px}}
 @media(prefers-reduced-motion:reduce){.studio-compact .editorial-board{animation:none}.studio-compact .editorial-piece{transition:none}}
+
+/* CURATE 0.6: editorial micro-details, Studio flat-lay only */
+.studio-compact .editorial-head{align-items:start}
+.studio-compact .editorial-star{display:inline-block;margin:0 4px;color:var(--accent);font-size:10px;letter-spacing:0}
+.studio-compact .editorial-issue{color:var(--soft);font-size:8px;font-weight:600;letter-spacing:.13em;margin-top:8px}
+.studio-compact .editorial-number{font-family:inherit;font-weight:600;font-size:9px;letter-spacing:.1em;white-space:nowrap;border:1px solid var(--line);border-radius:20px;padding:6px 8px}
+.studio-compact .editorial-note{display:flex;align-items:start;gap:11px;padding:13px 1px 12px;border-top:1px solid var(--line);margin-top:14px}
+.studio-compact .editorial-note-mark{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--accent);font-size:12px}
+.studio-compact .editorial-note-title{color:var(--ink);display:block;text-transform:uppercase;letter-spacing:.15em;font-weight:650;font-size:9px;margin:1px 0 4px}
+.studio-compact .editorial-note p{color:var(--soft);font-size:11px;line-height:1.5;margin:0}
+.studio-compact .editorial-foot{margin-top:0;padding-top:10px;font-size:9px;letter-spacing:.075em}
 </style></head><body><header><div><h1>CURATE</h1><small>YOUR WARDROBE, REFINED</small></div><button class="icon" id="themeButton" aria-label="Change theme">◐</button></header><main id="main"></main><nav id="nav"></nav><script>
 (function(){
 const base=[['t1','Black Corduroy Pullover','tops','🧥'],['t2','White Essential Tee','tops','👕'],['t3','Gray Knit Sweater','tops','🧶'],['b1','Medium Wash Jeans','bottoms','👖'],['b2','Black Chinos','bottoms','👖'],['b3','Gray Joggers','bottoms','👖'],['s1','White Sneakers','shoes','👟'],['s2','Black Sneakers','shoes','👟'],['s3','Brown Boots','shoes','🥾']];
@@ -133,7 +144,7 @@ default:return wrap('<rect x="70" y="40" width="100" height="120" rx="16" fill="
 function img(item){return item[4]?'<img src="'+esc(item[4])+'" alt="'+esc(item[1])+'">':sampleSvg(item)}
 function art(item){return '<div class="art">'+img(item)+'</div>'}
 function outfit(o){return '<div class="flat">'+['tops','bottoms','shoes'].map(c=>art(one(o[c]))).join('')+'</div>'}
-function studioFlat(o){return '<div class="editorial-board"><div class="editorial-head"><div><div class="editorial-kicker">CURATE / STYLING STUDY</div><div class="editorial-title">The complete look</div></div><span class="editorial-number">№ 01</span></div><div class="editorial-grid">'+['tops','bottoms','shoes'].map((c,i)=>'<div class="editorial-piece"><span class="editorial-index">0'+(i+1)+'</span>'+art(one(o[c]))+'<span class="editorial-caption">'+esc(one(o[c])[1])+'</span></div>').join('')+'</div><div class="editorial-foot"><span>Three pieces, one look</span><span>Personal edit</span></div></div>'}
+function studioFlat(o){return '<div class="editorial-board"><div class="editorial-head"><div><div class="editorial-kicker">CURATE <span class="editorial-star">✦</span> THE DAILY COLLECTION</div><div class="editorial-title">The complete look</div><div class="editorial-issue">PERSONAL WARDROBE / LOOK STUDY</div></div><span class="editorial-number">EDIT 001</span></div><div class="editorial-grid">'+['tops','bottoms','shoes'].map((c,i)=>'<div class="editorial-piece"><span class="editorial-index">0'+(i+1)+'</span>'+art(one(o[c]))+'<span class="editorial-caption">'+esc(one(o[c])[1])+'</span></div>').join('')+'</div><div class="editorial-note"><span class="editorial-note-mark">✦</span><div><span class="editorial-note-title">Collection note</span><p>Three considered pieces. One everyday look.</p></div></div><div class="editorial-foot"><span>Curated from your wardrobe</span><span>STUDIO · 01</span></div></div>'}
 
 function cycle(cat,n){const arr=items.filter(x=>x[2]===cat);let ix=arr.findIndex(x=>x[0]===selected[cat]);if(arr.length){selected[cat]=arr[(ix+n+arr.length)%arr.length][0];save('selected',selected);render()}}
 function shuffle(){['tops','bottoms','shoes'].forEach(c=>{let arr=items.filter(x=>x[2]===c);if(arr.length)selected[c]=arr[Math.floor(Math.random()*arr.length)][0]});save('selected',selected);render()}
